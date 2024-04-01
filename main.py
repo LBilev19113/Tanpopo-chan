@@ -171,9 +171,9 @@ if answer == "train":
     model = create_model()
     compile_model(model)
     train_model(model)
-    model.save('model.h5')
+    model.save('model.keras')
 elif answer == "chat":
-    model = load_model('model.h5')
+    model = load_model('model.keras')
     define_vocabulary()
 
     while True:
