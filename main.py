@@ -164,46 +164,46 @@ def define_vocabulary():
     print("output length: ",output_length)
     return vocabulary, output_length
 
-if __name__ == "main":
-    answer = input("what do you want to do, train or chat:")
-    if answer == "train":
-        define_vocabulary()
-        model = create_model()
-        compile_model(model)
-        train_model(model)
-        model.save('model3.h5')
-    elif answer == "chat":
-        model = load_model('model2.h5')
-        define_vocabulary()
 
-        while True:
+answer = input("what do you want to do, train or chat:")
+if answer == "train":
+    define_vocabulary()
+    model = create_model()
+    compile_model(model)
+    train_model(model)
+    model.save('model.h5')
+elif answer == "chat":
+    model = load_model('model.h5')
+    define_vocabulary()
 
-            texts_p = []
-            prediction_input = recognize_speech()
-            print("got audio")
+    while True:
 
-            #removing punctuation and converting to lowercase
-            prediction_input = [letters.lower() for letters in prediction_input if letters not in string.punctuation]
-            prediction_input = ''.join(prediction_input)
-            texts_p.append(prediction_input)
+        texts_p = []
+        prediction_input = recognize_speech()
+        print("got audio")
 
-            #tokenizing and padding
-            prediction_input = tokenizer.texts_to_sequences(texts_p)
-            prediction_input = np.array(prediction_input).reshape(-1)
-            prediction_input = pad_sequences([prediction_input],input_shape)
+        #removing punctuation and converting to lowercase
+        prediction_input = [letters.lower() for letters in prediction_input if letters not in string.punctuation]
+        prediction_input = ''.join(prediction_input)
+        texts_p.append(prediction_input)
 
-            #getting output from model
-            output = model.predict(prediction_input)
-            output = output.argmax()
+        #tokenizing and padding
+        prediction_input = tokenizer.texts_to_sequences(texts_p)
+        prediction_input = np.array(prediction_input).reshape(-1)
+        prediction_input = pad_sequences([prediction_input],input_shape)
 
-            #finding the right tag and predicting
-            response_tag = le.inverse_transform([output])[0]
-            response = random.choice(responses[response_tag])
-            print(response)
-            play(response)
-            print("Tanpopo : ",response)
-            if response_tag == "goodbye":
-                break
-    else:
-        print("option not found")
+        #getting output from model
+        output = model.predict(prediction_input)
+        output = output.argmax()
+
+        #finding the right tag and predicting
+        response_tag = le.inverse_transform([output])[0]
+        response = random.choice(responses[response_tag])
+        print(response)
+        play(response)
+        print("Tanpopo : ",response)
+        if response_tag == "goodbye":
+            break
+else:
+    print("option not found")
 
