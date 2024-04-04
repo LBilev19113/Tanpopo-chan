@@ -16,9 +16,10 @@ import matplotlib.pyplot as plt
 import string
 import joblib
 from keras.models import load_model
+from sklearn.model_selection import train_test_split
 
 
-keras = tf.keras
+keras = tf.keras# не се импортваха по нормалния начин
 Tokenizer = tf.keras.preprocessing.text.Tokenizer
 Input = tf.keras.layers.Input
 LSTM = tf.keras.layers.LSTM
@@ -66,10 +67,10 @@ def play(text):
     pygame.mixer.music.play()
     count += 1
 
-
-
-
-
+def history(question, response):
+    with open('history.txt', 'a') as file:
+        file.write(f"Question: {question}\n")
+        file.write(f"Response: {response}\n")
 
 def recognize_speech():
     recognizer = sr.Recognizer()
@@ -97,7 +98,7 @@ def save_model(model):
 
 
 def train_model(model):
-    train = model.fit(x_train,y_train,epochs=1000)
+    train = model.fit(x_train,y_train,epochs=300)
 
     plt.plot(train.history['accuracy'],label='training set accuracy')
     plt.plot(train.history['loss'],label='training set loss')
@@ -107,8 +108,8 @@ def create_model():
     vocabulary, output_length = define_vocabulary()
     
     i = Input(shape=(input_shape,))
-    x = Embedding(vocabulary+1,10)(i)
-    x = LSTM(20,return_sequences=True)(x)
+    x = Embedding(vocabulary+1,80)(i)
+    x = LSTM(15,return_sequences=True)(x)
     x = Flatten()(x)
     x = Dense(output_length,activation="softmax")(x)
     model = Model(i,x)
@@ -171,39 +172,48 @@ if answer == "train":
     model = create_model()
     compile_model(model)
     train_model(model)
-    model.save('model.keras')
+    model.save('model1.keras')
+
 elif answer == "chat":
-    model = load_model('model.keras')
+    model = load_model('model1.keras')
     define_vocabulary()
 
     while True:
 
         texts_p = []
-        prediction_input = recognize_speech()
-        print("got audio")
+        question = recognize_speech()
+        question_text = question
 
-        #removing punctuation and converting to lowercase
-        prediction_input = [letters.lower() for letters in prediction_input if letters not in string.punctuation]
-        prediction_input = ''.join(prediction_input)
-        texts_p.append(prediction_input)
+        question = [letters.lower() for letters in question if letters not in string.punctuation]
+        question = ''.join(question)
+        texts_p.append(question)
 
-        #tokenizing and padding
-        prediction_input = tokenizer.texts_to_sequences(texts_p)
-        prediction_input = np.array(prediction_input).reshape(-1)
-        prediction_input = pad_sequences([prediction_input],input_shape)
+        question = tokenizer.texts_to_sequences(texts_p)
+        question = np.array(question).reshape(-1)
+        question = pad_sequences([question],input_shape)
 
-        #getting output from model
-        output = model.predict(prediction_input)
+       
+        output = model.predict(question)
         output = output.argmax()
 
-        #finding the right tag and predicting
         response_tag = le.inverse_transform([output])[0]
         response = random.choice(responses[response_tag])
-        print(response)
         play(response)
+        history(question_text, response)
         print("Tanpopo : ",response)
         if response_tag == "goodbye":
             break
+
+elif answer == "test":
+
+    model = load_model('model1.keras')
+    define_vocabulary()
+
+    X_train, X_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+    
+    test_loss, test_accuracy = model.evaluate(X_test, y_test)
+    print("Test Loss:", test_loss)
+    print("Test Accuracy:", test_accuracy)
 else:
     print("option not found")
 
