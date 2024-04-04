@@ -50,8 +50,6 @@ def play(text):
             raise RuntimeError("No device!")
         device = devices[0]
     
-
-    print(count)
     try:
         if text.strip():  
             tts = gTTS(text, lang='en')
