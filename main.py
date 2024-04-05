@@ -91,12 +91,9 @@ def recognize_speech():
         print(f"Could not request results from Google Speech Recognition service; {e}")
         return ""
     
-def save_model(model):
-    joblib.dump(model, 'model.joblib')
-
 
 def train_model(model):
-    train = model.fit(x_train,y_train,epochs=300)
+    train = model.fit(x_train,y_train,epochs=600)
 
     plt.plot(train.history['accuracy'],label='training set accuracy')
     plt.plot(train.history['loss'],label='training set loss')
@@ -106,8 +103,8 @@ def create_model():
     vocabulary, output_length = define_vocabulary()
     
     i = Input(shape=(input_shape,))
-    x = Embedding(vocabulary+1,80)(i)
-    x = LSTM(15,return_sequences=True)(x)
+    x = Embedding(vocabulary+1,200)(i)
+    x = LSTM(40,return_sequences=True)(x)
     x = Flatten()(x)
     x = Dense(output_length,activation="softmax")(x)
     model = Model(i,x)
@@ -170,10 +167,10 @@ if answer == "train":
     model = create_model()
     compile_model(model)
     train_model(model)
-    model.save('model1.keras')
+    model.save('model2.keras')
 
 elif answer == "chat":
-    model = load_model('model1.keras')
+    model = load_model('model2.keras')
     define_vocabulary()
 
     while True:
@@ -185,7 +182,6 @@ elif answer == "chat":
         question = [letters.lower() for letters in question if letters not in string.punctuation]
         question = ''.join(question)
         texts_p.append(question)
-
         question = tokenizer.texts_to_sequences(texts_p)
         question = np.array(question).reshape(-1)
         question = pad_sequences([question],input_shape)
@@ -199,6 +195,7 @@ elif answer == "chat":
         play(response)
         history(question_text, response)
         print("Tanpopo : ",response)
+        print(response_tag)
         if response_tag == "goodbye":
             break
 

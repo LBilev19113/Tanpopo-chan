@@ -1,0 +1,62 @@
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: hello
+Response: 
+Question: hello
+Response: 
+Question: hello
+Response: 
+Question: how are you
+Response: Things are Great
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: can i join the pirates
+Response: you need to contact the nearest straw hats center once you have completed the pre-requisites
+Question: what are the quizzes
+Response: You can call me TechBot and I am here to Help you
+Question: goodbye
+Response: 
+Question: bye
+Response: 
+Question: goodbye
+Response: 
+Question: sayonara
+Response: 
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: goodbye
+Response: 
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: how are you
+Response: I am Great , wanna join the pirate's organization ?
+Question: goodbye
+Response: 
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: Sorry, I couldn't understand that.
+Response: 
+Question: hello
+Response: That's rough buddy.'
+Question: how are you
+Response: Everything's great.
+Question: goodbye bye
+Response: contact the closest straw hat center from your location
+Question: bye
+Response: Okay?
+Question: Sorry, I couldn't understand that.
+Response: Adios! Keep the anime spirit alive!
+Question: goodbye
+Response: Don't worry mommy is here for you.'
+Question: bye
+Response: Your mom.
+Question: hello
+Response: Hey! Nice to see you!
+Question: how are you
+Response: I am Great , wanna join the pirate's organization ?
+Question: goodbye
+Response: Goodbye! Let's meet again in the world of anime!

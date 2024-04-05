@@ -1747,22 +1747,6 @@
               "One breakthrough in AI learning that impressed me was the development of deep reinforcement learning algorithms that achieved superhuman performance in games like Go and Dota 2.",
               "My favorite researcher in AI learning is Yoshua Bengio. His contributions to deep learning and neural network research are groundbreaking."
             ]
-          },
-
-          {
-            "tag": "template",
-            "input": ["", "", ""],
-            "responses": [
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
-              ]
           }
 
         
