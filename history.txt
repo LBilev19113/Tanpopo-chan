@@ -88,3 +88,7 @@ Question: how do i join
 Response: contact the closest straw hat center from your location
 Question: Sorry, I couldn't understand that.
 Response: Take care! Don't forget to watch your favorite anime!
+Question: how are you
+Response: Everything's great.
+Question: goodbye
+Response: Goodbye! Keep enjoying the anime journey!

@@ -96,7 +96,7 @@ def recognize_speech():
     
 
 def train_model(model):
-    train = model.fit(x_train, y_train, epochs=300)
+    train = model.fit(x_train, y_train, epochs=150)
 
     
     plt.plot(train.history['accuracy'], label='training set accuracy')
@@ -109,8 +109,8 @@ def create_model():
     vocabulary, output_length = define_vocabulary()
     
     i = Input(shape=(input_shape,))
-    x = Embedding(vocabulary+1, 1000)(i)
-    x = LSTM(30, return_sequences=True)(x)
+    x = Embedding(vocabulary+1, 100)(i)
+    x = LSTM(500, return_sequences=True)(x)
     x = Flatten()(x)
     x = Dense(output_length, activation="softmax")(x)
     model = Model(i, x)
@@ -173,7 +173,7 @@ if answer == "train":
     model = create_model()
     compile_model(model)
     train_model(model)
-    model.save('model3.keras')
+    model.save('model4.keras')
     
     x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
     
@@ -182,7 +182,7 @@ if answer == "train":
     print("Test Accuracy:", test_accuracy)
 
 elif answer == "chat":
-    model = load_model('model3.keras')
+    model = load_model('model4.keras')
     define_vocabulary()
 
     while True:
@@ -213,7 +213,7 @@ elif answer == "chat":
 
 elif answer == "test":
 
-    model = load_model('model3.keras')
+    model = load_model('model4.keras')
     define_vocabulary()
 
     x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
