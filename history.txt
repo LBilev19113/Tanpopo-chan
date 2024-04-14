@@ -60,3 +60,31 @@ Question: how are you
 Response: I am Great , wanna join the pirate's organization ?
 Question: goodbye
 Response: Goodbye! Let's meet again in the world of anime!
+Question: Sorry, I couldn't understand that.
+Response: I am a The Great Pirate Bot , you can call me Going Merry
+Question: how are you
+Response: Yeah Fine, nothing much going on in my life
+Question: are you part of the pirates
+Response: Brace yourself for a surge of energy!
+Question: i'm sad
+Response: Going Merry at your service
+Question: hello
+Response: Take care! Don't forget to watch your favorite anime!
+Question: Sorry, I couldn't understand that.
+Response: My name is Going Merry and yes, I am the G.O.A.T
+Question: how are you
+Response: Things are Great
+Question: Sorry, I couldn't understand that.
+Response: My name is Going Merry and yes, I am the G.O.A.T
+Question: goodbye
+Response: Your mom.
+Question: bye-bye
+Response: Bye! Keep watching anime!
+Question: hello
+Response: No, i'm your online waifu.'
+Question: how are you
+Response: I am Great , wanna join the pirate's organization ?
+Question: how do i join
+Response: contact the closest straw hat center from your location
+Question: Sorry, I couldn't understand that.
+Response: Take care! Don't forget to watch your favorite anime!

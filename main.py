@@ -1,6 +1,8 @@
 import os
+from pyexpat import features
 import random
 import shutil
+from sklearn.tree import DecisionTreeClassifier
 import tensorflow as tf
 import speech_recognition as sr
 import pygame
@@ -16,7 +18,8 @@ import matplotlib.pyplot as plt
 import string
 import joblib
 from keras.models import load_model
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score, train_test_split
+from keras.models import Sequential
 
 
 keras = tf.keras# не се импортваха по нормалния начин
@@ -93,23 +96,26 @@ def recognize_speech():
     
 
 def train_model(model):
-    train = model.fit(x_train,y_train,epochs=600)
+    train = model.fit(x_train, y_train, epochs=300)
 
-    plt.plot(train.history['accuracy'],label='training set accuracy')
-    plt.plot(train.history['loss'],label='training set loss')
+    
+    plt.plot(train.history['accuracy'], label='training set accuracy')
+    plt.plot(train.history['loss'], label='training set loss')
     plt.legend()
+    plt.show()
+
 
 def create_model():
     vocabulary, output_length = define_vocabulary()
     
     i = Input(shape=(input_shape,))
-    x = Embedding(vocabulary+1,200)(i)
-    x = LSTM(40,return_sequences=True)(x)
+    x = Embedding(vocabulary+1, 1000)(i)
+    x = LSTM(30, return_sequences=True)(x)
     x = Flatten()(x)
-    x = Dense(output_length,activation="softmax")(x)
-    model = Model(i,x)
+    x = Dense(output_length, activation="softmax")(x)
+    model = Model(i, x)
     return model
-   
+
 
 def compile_model(model):
     model.compile(loss="sparse_categorical_crossentropy",optimizer='adam',metrics=['accuracy'])
@@ -167,10 +173,16 @@ if answer == "train":
     model = create_model()
     compile_model(model)
     train_model(model)
-    model.save('model2.keras')
+    model.save('model3.keras')
+    
+    x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+    
+    test_loss, test_accuracy = model.evaluate(x_test, y_test)
+    print("Test Loss:", test_loss)
+    print("Test Accuracy:", test_accuracy)
 
 elif answer == "chat":
-    model = load_model('model2.keras')
+    model = load_model('model3.keras')
     define_vocabulary()
 
     while True:
@@ -201,14 +213,15 @@ elif answer == "chat":
 
 elif answer == "test":
 
-    model = load_model('model1.keras')
+    model = load_model('model3.keras')
     define_vocabulary()
 
-    X_train, X_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+    x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+
+    clf = DecisionTreeClassifier()
+
+    scores = cross_val_score(clf, x_train, y_train, cv=5)
+    print("Average Accuracy:", scores.mean())
     
-    test_loss, test_accuracy = model.evaluate(X_test, y_test)
-    print("Test Loss:", test_loss)
-    print("Test Accuracy:", test_accuracy)
 else:
     print("option not found")
-
